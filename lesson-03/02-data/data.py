@@ -19,12 +19,16 @@ for user in users:
 
 with open('books.csv', 'r') as file:
     booklist = DictReader(file)
-    # print(next(booklist, {}))
 
     for bookreader in bookreaders:
         book = next(booklist, {})
         if len(book):
-            bookreader['books'].append(book)
+            prettybook = dict()
+            for key in book.keys():
+                lowkey = key.lower()
+                if lowkey in example['books'][0].keys():
+                    prettybook[lowkey] = book[key]
+            bookreader['books'].append(prettybook)
 
 result = dumps(bookreaders, indent=4)
 print(result)
