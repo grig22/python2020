@@ -26,6 +26,7 @@ def test_remove():
     ls.remove(444)
     assert ls == [111, 222, 333, 555]
 
+
 @pytest.mark.parametrize("pos, exp", [(1, 911), (2, 922), (3, 933)])
 def test_pop(pos, exp):
     ls = [900, 911, 922, 933]
