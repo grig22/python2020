@@ -30,5 +30,7 @@ with open('books.csv', 'r') as file:
                     prettybook[lowkey] = book[key]
             bookreader['books'].append(prettybook)
 
-result = dumps(bookreaders, indent=4)
-print(result)
+with open('result.json', 'w') as file:
+    result = dumps(bookreaders, indent=4)
+    print(result)
+    file.write(result)
