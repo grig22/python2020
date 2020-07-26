@@ -1,6 +1,5 @@
 import pytest
 import requests
-# TODO test_schema
 
 
 def test_single_random_image():
@@ -9,7 +8,7 @@ def test_single_random_image():
     assert res_json["status"] == "success"
 
 
-@pytest.mark.parametrize("num", range(1, 50))
+@pytest.mark.parametrize("num", range(1, 51))
 def test_multiple_random_images(num):
     res = requests.get("https://dog.ceo/api/breeds/image/random/{}".format(num))
     res_json = res.json()
@@ -25,11 +24,6 @@ def breeds_dict():
     assert type(msg) is dict
     assert msg
     return msg
-
-
-@pytest.fixture(scope="session")
-def breeds_dict_fix():
-    return breeds_dict()
 
 
 def all_breeds():
@@ -55,6 +49,11 @@ def breeds_with_subs():
     return res
 
 
+@pytest.fixture(scope="session")
+def breeds_dict_fix():
+    return breeds_dict()
+
+
 @pytest.mark.parametrize("breed", breeds_with_subs())
 def test_sub_breeds(breed, breeds_dict_fix):
     res = requests.get("https://dog.ceo/api/breed/{}/list".format(breed))
@@ -62,3 +61,9 @@ def test_sub_breeds(breed, breeds_dict_fix):
     assert res_json["status"] == "success"
     msg = res_json["message"]
     assert msg == breeds_dict_fix[breed]
+
+
+def test_error():
+    res = res = requests.get("https://dog.ceo/api/breed/bhairava/images")
+    res_json = res.json()
+    assert res_json["status"] == "error"
