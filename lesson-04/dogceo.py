@@ -33,13 +33,9 @@ def breeds_with_subs():
 
 @pytest.mark.parametrize("breed", breeds())
 def test_by_breed(breed):
-    t = "111{}222".format("finnish")
-    assert t == "111finnish222"
-    addr = "https://dog.ceo/api/{}/hound/images".format("finnish")
-    # res = requests.get("https://dog.ceo/api/{}/hound/images".format('finnish'))
-    res = requests.get(addr)
+    res = requests.get("https://dog.ceo/api/breed/{}/images".format(breed))
     res_json = res.json()
-    # assert res_json["status"] == "success"
-    # msg = res_json["message"]
-    # assert type(msg) is list
-    # assert msg
+    assert res_json["status"] == "success"
+    msg = res_json["message"]
+    assert type(msg) is list
+    assert msg
