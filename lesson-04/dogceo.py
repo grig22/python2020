@@ -1,12 +1,20 @@
 import pytest
 import requests
+# TODO test_schema
 
 
-# 1
-def test_random_image():
+def test_single_random_image():
     res = requests.get("https://dog.ceo/api/breeds/image/random")
     res_json = res.json()
     assert res_json["status"] == "success"
+
+
+@pytest.mark.parametrize("num", range(1, 50))
+def test_multiple_random_images(num):
+    res = requests.get("https://dog.ceo/api/breeds/image/random/{}".format(num))
+    res_json = res.json()
+    assert res_json["status"] == "success"
+    assert len(res_json["message"]) == num
 
 
 def breeds_dict():
@@ -28,7 +36,6 @@ def all_breeds():
     return breeds_dict().keys()
 
 
-# 2
 @pytest.mark.parametrize("breed", all_breeds())
 def test_by_breed(breed):
     res = requests.get("https://dog.ceo/api/breed/{}/images".format(breed))
@@ -48,7 +55,6 @@ def breeds_with_subs():
     return res
 
 
-# 3
 @pytest.mark.parametrize("breed", breeds_with_subs())
 def test_sub_breeds(breed, breeds_dict_fix):
     res = requests.get("https://dog.ceo/api/breed/{}/list".format(breed))
