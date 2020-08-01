@@ -1,5 +1,20 @@
 import pytest
 import requests
+from jsonschema import validate
+
+
+def test_schema():
+    schema = {
+        "type": "object",
+        "properties": {
+            "status": {"type": "string"},
+            "message": {"type": ["object", 'string']}
+        },
+        "required": ["status", "message"]
+    }
+    res = requests.get("https://dog.ceo/api/breeds/list/all")
+    res_json = res.json()
+    validate(instance=res_json, schema=schema)
 
 
 def test_single_random_image():
