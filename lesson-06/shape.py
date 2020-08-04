@@ -29,18 +29,39 @@ class Shape(ABC):
 
 
 class Triangle(Shape):
-    pass
+    def __init__(self, side0, side1, side2):
+        self.sides = [side0, side1, side2]
+        for side in self.sides:
+            # print("side = {}".format(side))
+            assert side > 0
+            other_sides = list(self.sides)
+            other_sides.remove(side)
+            # print("sum = {}".format(sum(other_sides)))
+            assert side < sum(other_sides)
+
+    @property
+    def area(self):
+        return -1
+
+    @property
+    def angles(self):
+        return 3
+
+    @property
+    def perimeter(self):
+        return sum(self.sides)
 
 
 class Rectangle(Shape):
 
-    def __init__(self, side1, side2):
-        self.side1 = side1
-        self.side2 = side2
+    def __init__(self, side0, side1):
+        self.sides = [side0, side1]
+        for side in self.sides:
+            assert side > 0
 
     @property
     def area(self):
-        return self.side1 * self.side2
+        return self.sides[0] * self.sides[1]
 
     @property
     def angles(self):
@@ -48,7 +69,7 @@ class Rectangle(Shape):
 
     @property
     def perimeter(self):
-        return (self.side1 + self.side2) * 2
+        return sum(self.sides) * 2
 
 
 class Square(Rectangle):
@@ -61,18 +82,6 @@ class Circle(Shape):
     pass
 
 
-# s = Square(5)
+# s = {1, 1, 1, 1}
 # print(s)
-# print(s.area)
-# print(s.angles)
-# print(s.perimeter)
-#
-# r = Rectangle(10, 20)
-# print(r)
-# print(r.area)
-# print(r.angles)
-# print(r.perimeter)
-#
-# print("-------- add")
-# a = s.add_square(r)
-# print(a)
+t = Triangle(3, 4, 5)

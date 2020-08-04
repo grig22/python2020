@@ -2,7 +2,7 @@ import pytest
 from shape import Square
 
 
-mysquares = [0, 1, 5, 25, 56.4879, 3190.88284641, 65498.156498465]
+mysquares = [0.000032423, 1, 5, 25, 56.4879, 3190.88284641, 65498.156498465]
 
 
 @pytest.mark.parametrize("data", mysquares)
