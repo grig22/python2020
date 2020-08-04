@@ -1,13 +1,29 @@
+import pytest
 from shape import Square
 
 
-def test_square_area():
-    s = Square(10)
-    assert s.area == 100
+mysquares = [0, 1, 5, 25, 56.4879, 3190.88284641, 65498.156498465]
 
 
-def test_square_add():
-    s1 = Square(10)
-    s2 = Square(5)
-    assert s1.add_square(s2) == 125
+@pytest.mark.parametrize("data", mysquares)
+def test_name(data):
+    s = Square(data)
+    assert s.name == "Square"
 
+
+@pytest.mark.parametrize("data", mysquares)
+def test_area(data):
+    s = Square(data)
+    assert s.area == data ** 2
+
+
+@pytest.mark.parametrize("data", mysquares)
+def test_angles(data):
+    s = Square(data)
+    assert s.angles == 4
+
+
+@pytest.mark.parametrize("data", mysquares)
+def test_perimeter(data):
+    s = Square(data)
+    assert s.perimeter == data * 4

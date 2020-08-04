@@ -61,18 +61,18 @@ class Circle(Shape):
     pass
 
 
-s = Square(5)
-print(s)
-print(s.area)
-print(s.angles)
-print(s.perimeter)
-
-r = Rectangle(10, 20)
-print(r)
-print(r.area)
-print(r.angles)
-print(r.perimeter)
-
-print("-------- add")
-a = s.add_square(r)
-print(a)
+# s = Square(5)
+# print(s)
+# print(s.area)
+# print(s.angles)
+# print(s.perimeter)
+#
+# r = Rectangle(10, 20)
+# print(r)
+# print(r.area)
+# print(r.angles)
+# print(r.perimeter)
+#
+# print("-------- add")
+# a = s.add_square(r)
+# print(a)
