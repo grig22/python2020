@@ -1,20 +1,26 @@
-class Shape:
+from abc import ABC, abstractmethod
+
+
+class Shape(ABC):
 
     @property
     def name(self):
         return self.__class__.__name__
 
     @property
+    @abstractmethod
     def area(self):
-        return 33
+        pass
 
     @property
+    @abstractmethod
     def angles(self):
-        return 44
+        pass
 
     @property
+    @abstractmethod
     def perimeter(self):
-        return 55
+        pass
 
     def add_square(self, other):
         if not isinstance(other, Shape):
@@ -27,31 +33,46 @@ class Triangle(Shape):
 
 
 class Rectangle(Shape):
-    pass
 
-
-class Square(Shape):
-
-    def __init__(self, side):
-        self.side = side
+    def __init__(self, side1, side2):
+        self.side1 = side1
+        self.side2 = side2
 
     @property
     def area(self):
-        return self.side ** 2
+        return self.side1 * self.side2
+
+    @property
+    def angles(self):
+        return 4
+
+    @property
+    def perimeter(self):
+        return (self.side1 + self.side2) * 2
+
+
+class Square(Rectangle):
+
+    def __init__(self, side):
+        super().__init__(side, side)
 
 
 class Circle(Shape):
     pass
 
 
-s = Shape()
-t = Triangle()
-
-print(s.name)
+s = Square(5)
+print(s)
 print(s.area)
+print(s.angles)
+print(s.perimeter)
 
-print(t.name)
-print(t.area)
+r = Rectangle(10, 20)
+print(r)
+print(r.area)
+print(r.angles)
+print(r.perimeter)
 
-print(s.add_square(t))
-# print(t.add_square([55,66,77,88]))
+print("-------- add")
+a = s.add_square(r)
+print(a)
