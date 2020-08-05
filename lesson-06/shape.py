@@ -83,7 +83,3 @@ class Square(Rectangle):
 
 class Circle(Shape):
     pass
-
-
-# ttt = Triangle(3, 4, 5)
-# print("TRIANGLE AREA = {}".format(ttt.area))

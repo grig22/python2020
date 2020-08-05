@@ -13,8 +13,11 @@ def test_name(data):
 
 @pytest.mark.parametrize("data", triangles)
 def test_area(data):
+    p = data[0] + data[1] + data[2]
+    p /= 2
+    area = (p * (p - data[0]) * (p - data[1]) * (p - data[2])) ** 0.5
     t = Triangle(data[0], data[1], data[2])
-    assert t.area == -22
+    assert t.area == area
 
 
 @pytest.mark.parametrize("data", triangles)
