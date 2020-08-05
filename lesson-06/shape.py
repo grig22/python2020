@@ -40,9 +40,11 @@ class Triangle(Shape):
     @property
     def area(self):
         # используем Формулу Герона
-        p = sum(self.sides) / 2.0
-        s = sqrt(p * (p - self.sides[0]) * (p - self.sides[1]) * (p - self.sides[2]))
-        return s
+        semiper = self.perimeter / 2
+        p = semiper
+        for side in self.sides:
+            p *= (semiper - side)
+        return sqrt(p)
 
     @property
     def angles(self):
@@ -83,7 +85,5 @@ class Circle(Shape):
     pass
 
 
-# s = {1, 1, 1, 1}
-# print(s)
-t = Triangle(3, 4, 5)
-print(t.area)
+# ttt = Triangle(3, 4, 5)
+# print("TRIANGLE AREA = {}".format(ttt.area))
