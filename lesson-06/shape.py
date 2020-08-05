@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from math import sqrt
 
 class Shape(ABC):
 
@@ -32,16 +32,17 @@ class Triangle(Shape):
     def __init__(self, side0, side1, side2):
         self.sides = [side0, side1, side2]
         for side in self.sides:
-            # print("side = {}".format(side))
             assert side > 0
             other_sides = list(self.sides)
             other_sides.remove(side)
-            # print("sum = {}".format(sum(other_sides)))
             assert side < sum(other_sides)
 
     @property
     def area(self):
-        return -1
+        # используем Формулу Герона
+        p = sum(self.sides) / 2.0
+        s = sqrt(p * (p - self.sides[0]) * (p - self.sides[1]) * (p - self.sides[2]))
+        return s
 
     @property
     def angles(self):
@@ -85,3 +86,4 @@ class Circle(Shape):
 # s = {1, 1, 1, 1}
 # print(s)
 t = Triangle(3, 4, 5)
+print(t.area)
