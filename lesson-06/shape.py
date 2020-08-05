@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from math import sqrt
+from math import sqrt, pi
 
 class Shape(ABC):
 
@@ -82,4 +82,18 @@ class Square(Rectangle):
 
 
 class Circle(Shape):
-    pass
+    def __init__(self, radius):
+        self.radius = radius
+        assert self.radius > 0
+
+    @property
+    def area(self):
+        return pi * self.radius ** 2
+
+    @property
+    def angles(self):
+        return 0
+
+    @property
+    def perimeter(self):
+        return 2 * pi * self.radius
