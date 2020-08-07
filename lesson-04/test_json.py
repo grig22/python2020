@@ -49,9 +49,10 @@ def fetch_user_ids():
     res = requests.get("https://jsonplaceholder.typicode.com/users")
     res_json = res.json()
     validate(instance=res_json, schema=schema)
-    ids = list()
-    for user in res_json:
-        ids.append(user["id"])
+    # ids = list()
+    # for user in res_json:
+    #     ids.append(user["id"])
+    ids = [user["id"] for user in res_json]
     assert ids
     return ids
 
@@ -91,7 +92,7 @@ abstraction mechanisms, standard libraries, and key design techniques.""",
 
 
 @pytest.mark.parametrize("body", some_bodies)
-@pytest.mark.parametrize("post_id", fetch_post_ids(fetch_user_ids()[0])[0:2])
+@pytest.mark.parametrize("post_id", fetch_post_ids(fetch_user_ids()[5])[0:2])
 def test_patch(post_id, body):
     url = "https://jsonplaceholder.typicode.com/posts/{}".format(post_id)
     old = requests.get(url)
