@@ -110,3 +110,13 @@ def test_patch(post_id, body):
 def test_comments(comment):
     post_id = comment["postId"]
     assert comment in requests.get("https://jsonplaceholder.typicode.com/posts/{}/comments".format(post_id)).json()
+
+
+@pytest.mark.parametrize("post_id", range(1, 121, 5))
+def test_two_path(post_id):
+    res1 = requests.get("https://jsonplaceholder.typicode.com/posts/{}/comments".format(post_id))
+    json1 = res1.json()
+    res2 = requests.get("https://jsonplaceholder.typicode.com/comments?postId={}".format(post_id))
+    json2 = res2.json()
+    assert json1 == json2
+    print("POST ID = '{}', len(JSON) = '{}'".format(post_id, len(json2)))
