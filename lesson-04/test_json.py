@@ -104,3 +104,9 @@ def test_patch(post_id, body):
     res_json = res.json()
     validate(instance=res_json, schema=SCHEMA.POST)
     assert res_json == new_json
+
+
+@pytest.mark.parametrize("comment", requests.get("https://jsonplaceholder.typicode.com/comments").json()[0:100:5])
+def test_comments(comment):
+    post_id = comment["postId"]
+    assert comment in requests.get("https://jsonplaceholder.typicode.com/posts/{}/comments".format(post_id)).json()
