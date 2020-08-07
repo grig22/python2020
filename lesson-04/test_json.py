@@ -4,23 +4,25 @@ from jsonschema import validate
 # import json
 
 
-g_post_schema = {
-    "type": "object",
-    "properties": {
-        "userId": {"type": "number"},
-        "id": {"type": "number"},
-        "title": {"type": "string"},
-        "body": {"type": "string"},
-    }
-}
-
-g_userid_schema = {
+class SCHEMA:
+    POST = {
         "type": "object",
         "properties": {
+            "userId": {"type": "number"},
             "id": {"type": "number"},
+            "title": {"type": "string"},
+            "body": {"type": "string"},
         },
-        "required": ["id"]
+        "required": ["userId", "id", "title", "body"]
     }
+
+    USERID = {
+            "type": "object",
+            "properties": {
+                "id": {"type": "number"},
+            },
+            "required": ["id"]
+        }
 
 
 def test_schema_posts():
@@ -28,7 +30,7 @@ def test_schema_posts():
         "type": "array",
         "minItems": 100,
         "maxItems": 100,
-        "items": g_post_schema
+        "items": SCHEMA.POST
     }
     res = requests.get("https://jsonplaceholder.typicode.com/posts")
     res_json = res.json()
@@ -40,7 +42,7 @@ def userids():
         "type": "array",
         "minItems": 10,
         "maxItems": 10,
-        "items": g_userid_schema
+        "items": SCHEMA.USERID
     }
     res = requests.get("https://jsonplaceholder.typicode.com/users")
     res_json = res.json()
@@ -48,14 +50,15 @@ def userids():
     ids = set()
     for user in res_json:
         ids.add(user["id"])
+    assert ids
     return ids
 
 
 @pytest.mark.parametrize("userid", userids())
 def test_create(userid):
     body = {
-        "title": "foo",
-        "body": "bar",
+        "title": "Тестирование REST сервиса 3",
+        "body": "Тесты должны успешно проходить.",
         "userId": userid
     }
     res = requests.post("https://jsonplaceholder.typicode.com/posts", json=body)
