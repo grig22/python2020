@@ -1,6 +1,9 @@
 from selenium import webdriver
 
-browser = webdriver.Chrome()
-browser.fullscreen_window()
-browser.get('http://yandex.ru')
-browser.fullscreen_window()
+options = webdriver.ChromeOptions()
+options.add_argument("start-fullscreen");
+options.headless = True
+browser = webdriver.Chrome(options=options)
+browser.get('http://localhost')
+print(browser.title)
+browser.quit()
