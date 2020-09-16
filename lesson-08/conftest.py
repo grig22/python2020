@@ -10,16 +10,15 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='session')
 def browser(request):
-    browser = request.config.getoption("--browser")
+    desired = request.config.getoption("--browser")
     url = request.config.getoption("--url")
-    if browser == "chrome":
-        options = webdriver.ChromeOptions()
-        # options.add_argument("start-fullscreen");
-        # options.headless = False
-        driver = webdriver.Chrome(options=options)
+    if desired == "chrome":
+        driver = webdriver.Chrome()
+    elif desired == "firefox":
+        driver = webdriver.Firefox()
     else:
         driver = None
-        assert "ONLY CHROME SUPPORTED SORRY" == driver
+        assert not f"BROWSER {desired} NOT SUPPORTED SORRY"
     driver.maximize_window()
     request.addfinalizer(driver.quit)
     driver.get(url)
