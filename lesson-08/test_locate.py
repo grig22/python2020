@@ -49,8 +49,10 @@ def test_product_page(browser):
 
 
 # 2.4 Страницу логина /index.php?route=account/login
-def test_main_page(browser):
-    elem_ids = ["", "", "", "", ""]
+def test_login_page(browser):
+    browser.get(browser.url + "/index.php?route=account/login")
+    elem_ids = ["input-email", "input-password", "column-right", "content", "menu"]
     for elem_id in elem_ids:
         browser.find_element_by_id(elem_id)
     time.sleep(2)
+
