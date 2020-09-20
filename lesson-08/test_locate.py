@@ -30,8 +30,25 @@ def test_main_page(browser):
 
 
 # 2.2 Каталог /index.php?route=product/category&path=20
+def test_catalog_page(browser):
+    browser.get(browser.url + "/index.php?route=product/category&path=20")
+    elem_ids = ["product-category", "column-left", "list-view", "input-sort", "content"]
+    for elem_id in elem_ids:
+        browser.find_element_by_id(elem_id)
+    time.sleep(2)
 
 
 # 2.3 Карточку товара /index.php?route=product/product&path=57&product_id=49
+def test_main_page(browser):
+    elem_ids = ["", "", "", "", ""]
+    for elem_id in elem_ids:
+        browser.find_element_by_id(elem_id)
+    time.sleep(2)
+
 
 # 2.4 Страницу логина /index.php?route=account/login
+def test_main_page(browser):
+    elem_ids = ["", "", "", "", ""]
+    for elem_id in elem_ids:
+        browser.find_element_by_id(elem_id)
+    time.sleep(2)
