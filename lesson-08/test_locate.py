@@ -39,8 +39,10 @@ def test_catalog_page(browser):
 
 
 # 2.3 Карточку товара /index.php?route=product/product&path=57&product_id=49
-def test_main_page(browser):
-    elem_ids = ["", "", "", "", ""]
+def test_product_page(browser):
+    browser.get(browser.url + "/index.php?route=product/product&path=57&product_id=49")
+    browser.find_element_by_link_text("Samsung Galaxy Tab 10.1")
+    elem_ids = ["content", "tab-description", "input-quantity", "button-cart", "menu"]
     for elem_id in elem_ids:
         browser.find_element_by_id(elem_id)
     time.sleep(2)
