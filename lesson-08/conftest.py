@@ -22,6 +22,6 @@ def browser(request):
         assert not f"BROWSER {desired} NOT SUPPORTED SORRY"
     driver.maximize_window()
     request.addfinalizer(driver.quit)
-    driver.get(url)
+    # driver.get(url)
     driver.url = url
     return driver

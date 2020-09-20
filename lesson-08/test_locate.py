@@ -3,6 +3,7 @@ import time
 
 # 1.3
 def test_title(browser):
+    browser.get(browser.url)
     assert browser.title == 'GRIG22 HAPPY STORE'
     time.sleep(2)
 
@@ -23,6 +24,7 @@ def test_admin_page(browser):
 
 # 2.1 Главную /
 def test_main_page(browser):
+    browser.get(browser.url)
     elem_ids = ["logo", "search", "cart", "menu", "content"]
     for elem_id in elem_ids:
         browser.find_element_by_id(elem_id)
