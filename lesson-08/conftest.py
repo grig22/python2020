@@ -1,5 +1,4 @@
 import pytest
-
 from selenium import webdriver
 
 
@@ -8,9 +7,11 @@ def pytest_addoption(parser):
     parser.addoption("--url", default="http://localhost/")
 
 
+# 1.1
 @pytest.fixture(scope='session')
 def browser(request):
     desired = request.config.getoption("--browser")
+    # 1.2
     url = request.config.getoption("--url")
     if desired == "chrome":
         driver = webdriver.Chrome()
