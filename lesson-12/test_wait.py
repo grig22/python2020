@@ -3,7 +3,7 @@ from basepage import BasePage
 
 
 # Добавить проверку логина и разлогина раздела администратора.
-def test_login_admin(browser):
+def test_po_login_admin(browser):
     admin_page = BasePage(browser, "/admin/")
     assert admin_page.title() == "Administration"
     username = admin_page.find_elem("input-username")
@@ -29,9 +29,13 @@ def test_login_admin(browser):
 
 
 # 3.2 Добавить проверку перехода к разделу с товарами, что появляется таблица с товарами.
-def test_product_list(browser):
-    browser.get(browser.url + "/index.php?route=product/category&path=18")
-    wait = WebDriverWait(browser, timeout=3)
-    wait.until(EC.title_is("Laptops & Notebooks"))
-    wait.until(EC.visibility_of_element_located((By.ID, "content")))
-    wait.until(EC.visibility_of_element_located((By.LINK_TEXT, "MacBook Pro")))
+def test_po_product_list(browser):
+    # browser.get(browser.url + "/index.php?route=product/category&path=18")
+    product_page = BasePage(browser, "/index.php?route=product/category&path=18")
+    # wait = WebDriverWait(browser, timeout=3)
+    # wait.until(EC.title_is("Laptops & Notebooks"))
+    product_page.wait_title("Laptops & Notebooks")
+    # wait.until(EC.visibility_of_element_located((By.ID, "content")))
+    product_page.wait_elem("content")
+    # wait.until(EC.visibility_of_element_located((By.LINK_TEXT, "MacBook Pro")))
+    product_page.wait_elem(method="link", value="MacBook Pro")
