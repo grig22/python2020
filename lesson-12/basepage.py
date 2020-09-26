@@ -33,4 +33,4 @@ class BasePage:
             locator = By.LINK_TEXT
         else:
             raise ValueError(f'unsupported method "{method}"')
-        self.webdr_wait.until(EC.visibility_of_element_located((locator, value)))
+        return self.webdr_wait.until(EC.visibility_of_element_located((locator, value)))

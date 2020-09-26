@@ -14,12 +14,12 @@ def test_po_login_admin(browser):
     password.send_keys("1" + Keys.ENTER)
     # загрузилось
     admin_page.wait_title("Dashboard")
-    admin_page.wait_elem(method="link", value="Logout")
+    logout = admin_page.wait_elem(method="link", value="Logout")
     # проверяем что это я
     profile = admin_page.find_elem("user-profile")
     assert profile.get_attribute("alt") == "Benedict Cumberbatch"
     # разлогинимся
-    admin_page.find_elem(method="link", value="Logout").click()
+    logout.click()
     admin_page.wait_title("Administration")
 
 
