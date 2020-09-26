@@ -7,7 +7,6 @@ def pytest_addoption(parser):
     parser.addoption("--url", default="http://localhost/")
 
 
-# 1.1
 @pytest.fixture(scope='session')
 def browser(request):
     desired = request.config.getoption("--browser")
@@ -22,6 +21,5 @@ def browser(request):
         assert not f"BROWSER {desired} NOT SUPPORTED SORRY"
     driver.maximize_window()
     request.addfinalizer(driver.quit)
-    # driver.get(url)
     driver.url = url
     return driver

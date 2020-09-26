@@ -1,10 +1,8 @@
 class BasePage:
 
-    def __init__(self, driver, url = ""):
+    def __init__(self, driver, url=""):
         self.driver = driver
         self.driver.get(self.driver.url + "/" + url)
-
-
 
     def find_elem(self, value, method = "id"):
         if method == "id":
