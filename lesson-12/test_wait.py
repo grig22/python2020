@@ -1,5 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 from basepage import BasePage
+# https://intellij-support.jetbrains.com/hc/en-us/community/posts/360000424900-Very-frustrated-PyCharm-says-local-import-is-unresolved-reference
 
 
 # Добавить проверку логина и разлогина раздела администратора.
