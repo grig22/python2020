@@ -13,7 +13,9 @@ def browser(request):
     # 1.2
     url = request.config.getoption("--url")
     if desired == "chrome":
-        driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.binary_location = "/usr/bin/chromium"
+        driver = webdriver.Chrome(options=options)
     elif desired == "firefox":
         driver = webdriver.Firefox()
     else:
