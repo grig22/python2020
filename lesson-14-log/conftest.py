@@ -25,7 +25,7 @@ def pytest_addoption(parser):
 def browser(request):
     test_name = request.node.name
     logger = logging.getLogger("browser_fixture")
-    logger.info(f"Started test {test_name}")
+    logger.info(f">>> Started test {test_name}")
     desired = request.config.getoption("--browser")
 
     if desired == "chrome":
@@ -41,7 +41,7 @@ def browser(request):
     def fin():
         driver.quit()
         logger.info(f"Closed browser '{driver.name}'")
-        logger.info(f"Finished test {test_name}")
+        logger.info(f"<<< Finished test {test_name}")
 
     request.addfinalizer(fin)
     logger.info(f"Opened browser '{driver.name}'")
