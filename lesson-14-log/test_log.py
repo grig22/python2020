@@ -14,5 +14,16 @@ def test_random_product(browser):
     store.select_random_product()
     assert "Original Artwork" in store.title()
     store.is_present(store.THUMB_IMAGE)
-    store.logger.info("Look at that beauty")
-    time.sleep(2)
+    store.logger.warning("Look at that beauty")
+    time.sleep(4)
+
+
+def test_search(browser):
+    store = NaotoStore(browser)
+    store.open("https://www.naotohattori.com/")
+    store.click_search()
+    # time.sleep(2)
+    store.search("Lucid Dreamer")
+    store.click_link("Lucid Dreamer 127")
+    store.logger.warning("Look at that beauty")
+    time.sleep(4)

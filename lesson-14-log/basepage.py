@@ -27,7 +27,8 @@ class BasePage:
 
     def input_and_submit(self, locator, value):
         self.logger.info(f"Input '{value}' in field '{locator}'")
-        find_field = self.driver.find_element(locator)
+        # find_field = self.driver.find_element(locator)
+        find_field = self.wait.until(EC.visibility_of_element_located(locator))
         find_field.send_keys(value)
         find_field.send_keys(Keys.ENTER)
 
