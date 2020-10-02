@@ -27,3 +27,6 @@ class NaotoStore(BasePage):
 
     def click_link(self, text):
         self.click((By.PARTIAL_LINK_TEXT, text))
+
+    def search_gone(self):
+        self.disappear(self.SEARCH_QUERY)

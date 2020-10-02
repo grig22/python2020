@@ -33,5 +33,9 @@ class BasePage:
         find_field.send_keys(Keys.ENTER)
 
     def is_present(self, locator):
-        self.logger.info(f"Check if element '{locator}'")
+        self.logger.info(f"Check if element visible '{locator}'")
         return self.wait.until(EC.visibility_of_element_located(locator))
+
+    def disappear(self, locator):
+        self.logger.info(f"Check if element invisible '{locator}'")
+        element = self.wait.until(EC.invisibility_of_element_located(locator))
