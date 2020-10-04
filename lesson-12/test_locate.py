@@ -3,7 +3,7 @@ from basepage import BasePage
 
 def test_po_title(browser):
     main_page = BasePage(browser)
-    assert main_page.title() == 'GRIG22 HAPPY STORE'
+    main_page.wait_title('GRIG22 HAPPY STORE')
 
 
 def test_po_admin_page(browser):

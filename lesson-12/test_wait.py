@@ -6,7 +6,7 @@ from basepage import BasePage
 # Добавить проверку логина и разлогина раздела администратора.
 def test_po_login_admin(browser):
     admin_page = BasePage(browser, "/admin/")
-    assert admin_page.title() == "Administration"
+    admin_page.wait_title("Administration")
     username = admin_page.find_elem("input-username")
     password = admin_page.find_elem("input-password")
     # логинимся

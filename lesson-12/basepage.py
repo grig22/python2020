@@ -18,11 +18,8 @@ class BasePage:
         else:
             raise ValueError(f'unsupported method "{method}"')
 
-    def title(self):
-        return self.driver.title
-
     def wait_title(self, title):
-        self.webdr_wait.until(EC.title_is(title))
+        return self.webdr_wait.until(EC.title_is(title))
 
     def wait_elem(self, value, method="id"):
         """If the condition fails, e.g. a truthful return value from the condition is never reached,
