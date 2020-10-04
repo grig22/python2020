@@ -13,8 +13,10 @@ class BasePage:
     def find_elem(self, value, method="id"):
         if method == "id":
             return self.driver.find_element_by_id(value)
-        elif method == "link":
-            return self.driver.find_element_by_link_text(value)
+        # elif method == "link":
+        #     return self.driver.find_element_by_link_text(value)
+        elif method == "css":
+            return self.driver.find_element_by_css_selector(value)
         else:
             raise ValueError(f'unsupported method "{method}"')
 
@@ -26,8 +28,10 @@ class BasePage:
          the wait will throw/raise an error/exception called a timeout error."""
         if method == "id":
             locator = By.ID
-        elif method == "link":
-            locator = By.LINK_TEXT
+        # elif method == "link":
+        #     locator = By.LINK_TEXT
+        elif method == "css":
+            locator = By.CSS_SELECTOR
         else:
             raise ValueError(f'unsupported method "{method}"')
         return self.webdr_wait.until(EC.visibility_of_element_located((locator, value)))

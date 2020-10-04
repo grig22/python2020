@@ -8,7 +8,8 @@ def test_po_title(browser):
 
 def test_po_admin_page(browser):
     admin_page = BasePage(browser, "/admin/")
-    assert admin_page.find_elem("Forgotten Password", method="link")
+    # assert admin_page.find_elem("Forgotten Password", method="link")
+    assert admin_page.find_elem(".help-block > a:nth-child(1)", method="css").text == "Forgotten Password"
     elem_ids = ["input-username", "input-password", "content", "container"]
     for elem_id in elem_ids:
         assert admin_page.find_elem(elem_id)
@@ -30,7 +31,9 @@ def test_po_catalog_page(browser):
 
 def test_po_product_page(browser):
     product_page = BasePage(browser, "/index.php?route=product/product&path=57&product_id=49")
-    assert product_page.find_elem("Samsung Galaxy Tab 10.1", method="link")
+    # assert product_page.find_elem("Samsung Galaxy Tab 10.1", method="link")
+    assert product_page.find_elem("div.col-sm-4:nth-child(2) > h1:nth-child(2)", method="css").text ==\
+           "Samsung Galaxy Tab 10.1"
     elem_ids = ["content", "tab-description", "input-quantity", "button-cart", "menu"]
     for elem_id in elem_ids:
         assert product_page.find_elem(elem_id)
