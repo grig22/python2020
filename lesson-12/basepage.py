@@ -5,9 +5,9 @@ from selenium.webdriver.common.by import By
 
 class BasePage:
 
-    def __init__(self, driver, url=""):
+    def __init__(self, driver, url="", time_out=3):
         self.driver = driver
-        self.webdr_wait = WebDriverWait(self.driver, timeout=3)
+        self.webdr_wait = WebDriverWait(self.driver, timeout=time_out)
         self.driver.get(self.driver.url + "/" + url)
 
     def find_elem(self, value, method="id"):
