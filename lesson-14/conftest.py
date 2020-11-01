@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 import logging
-# import sys
+import allure
 
 # https://docs.python.org/3/library/logging.html
 # https://stackoverflow.com/questions/13733552/logger-configuration-to-log-to-file-and-print-to-stdout
