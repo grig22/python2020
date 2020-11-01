@@ -24,6 +24,6 @@ def test_search(browser):
     store.click_search()
     store.search("Lucid Dreamer")
     store.search_gone()
-    store.click_link("Lucid Dreamer")
+    store.click_css("#frmCompare > div.SearchContainer > ul > li:nth-child(1) > div.ProductImage.QuickView > a > img")
     store.logger.warning("Look at that beauty")
     time.sleep(2)

@@ -25,8 +25,8 @@ class NaotoStore(BasePage):
     def search(self, request):
         self.input_and_submit(self.SEARCH_QUERY, request)
 
-    def click_link(self, text):
-        self.click((By.PARTIAL_LINK_TEXT, text))
+    def click_css(self, text):
+        self.click((By.CSS_SELECTOR, text))
 
     def search_gone(self):
         self.disappear(self.SEARCH_QUERY)
