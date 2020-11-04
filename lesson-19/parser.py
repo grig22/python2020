@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # sites-available/000-default.conf:	CustomLog ${APACHE_LOG_DIR}/access.log combined
 # apache2.conf:LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 # https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#formats
@@ -19,9 +20,7 @@
 import re
 from collections import defaultdict
 import json
-
-filename = "/var/log/apache2/access.log"
-regex = '(.*?) (.*?) (.*?) \[(.*?)\] "(.*?)" (\d*) (\d*) "(.*?)" "(.*?)"'
+import sys
 
 pos_ip = 0
 pos_request = 4
@@ -51,27 +50,31 @@ def extract_data(parsed_mobj):
             'IP': pmg[pos_ip]}
 
 
-lines = open(filename, 'r').readlines()
-for line in lines:
-    parsed = re.match(regex, line)
-    if not parsed:
-        print('BAD LINE', line)
-        assert 0
-    groups = parsed.groups()
-    # общее количество выполненных запросов
-    request_overall += 1
-    # топ 10 IP адресов, с которых были сделаны запросы
-    ip_addrs[groups[pos_ip]] += 1
-    # количество запросов по типу: GET - 20, POST - 10 и т.п.
-    request_type = split_request(groups[pos_request])['method']
-    request_by_type[request_type] += 1
+regex = '(.*?) (.*?) (.*?) \[(.*?)\] "(.*?)" (\d*) (\d*) "(.*?)" "(.*?)"'
 
-    # топ 10 запросов, которые завершились клиентской ошибкой, должно быть видно метод, url, статус код, ip адрес
-    if re.match(client_error, groups[pos_status]):
-        request_client_error.append(extract_data(parsed))
-    # топ 10 запросов, которые завершились ошибкой со стороны сервера, должно быть видно метод, url, статус код, ip адрес
-    if re.match(server_error, groups[pos_status]):
-        request_server_error.append(extract_data(parsed))
+for filename in sys.argv[1:]:
+    print('Обработка файла', filename)
+    lines = open(filename, mode='r').readlines()
+    for line in lines:
+        parsed = re.match(regex, line)
+        if not parsed:
+            print('BAD LINE', line)
+            assert 0
+        groups = parsed.groups()
+        # общее количество выполненных запросов
+        request_overall += 1
+        # топ 10 IP адресов, с которых были сделаны запросы
+        ip_addrs[groups[pos_ip]] += 1
+        # количество запросов по типу: GET - 20, POST - 10 и т.п.
+        request_type = split_request(groups[pos_request])['method']
+        request_by_type[request_type] += 1
+
+        # топ 10 запросов, которые завершились клиентской ошибкой, должно быть видно метод, url, статус код, ip адрес
+        if re.match(client_error, groups[pos_status]):
+            request_client_error.append(extract_data(parsed))
+        # топ 10 запросов, которые завершились ошибкой со стороны сервера, должно быть видно метод, url, статус код, ip адрес
+        if re.match(server_error, groups[pos_status]):
+            request_server_error.append(extract_data(parsed))
 
 ip_addrs_sorted = {k: v for k, v in sorted(ip_addrs.items(), key=lambda item: item[1], reverse=True)}
 ip_items = ip_addrs_sorted.items()
@@ -86,5 +89,9 @@ stats = {
     'топ 10 запросов, которые завершились клиентской ошибкой': request_client_error_first_ten,
     'топ 10 запросов, которые завершились ошибкой со стороны сервера': request_server_error_first_ten
 }
-print(stats)
-print(json.dumps(stats, indent=4, ensure_ascii=False))
+# print(stats)
+# print(json.dumps(stats, indent=4, ensure_ascii=False))
+outfilename = 'out.jsn'
+outfile = open(outfilename, mode='w')
+json.dump(stats, outfile, indent=4, ensure_ascii=False)
+print('Записан файл', outfilename)
