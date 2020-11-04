@@ -36,7 +36,12 @@ request_server_error = list()
 
 
 def split_request(request_line):
-    gr = re.match('(\A[A-Z]+?) (.+?) ', request_line).groups()
+    ma = re.match('(\A[A-Z]+?) (.+?) ', request_line)
+    if not ma:
+        print('ПЛОХОЙ ЗАПРОС:', request_line)
+        return {'method': 'ОШИБКА', 'url': 'ОШИБКА'}
+        # assert 0
+    gr = ma.groups()
     return {'method': gr[0], 'url': gr[1]}
 
 
@@ -58,8 +63,9 @@ for filename in sys.argv[1:]:
     for line in lines:
         parsed = re.match(regex, line)
         if not parsed:
-            print('BAD LINE', line)
-            assert 0
+            print('ПЛОХАЯ СТРОКА:', line)
+            continue
+            # assert 0
         groups = parsed.groups()
         # общее количество выполненных запросов
         request_overall += 1
