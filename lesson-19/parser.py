@@ -18,6 +18,7 @@
 
 import re
 from collections import defaultdict
+import json
 
 filename = "/var/log/apache2/access.log"
 regex = '(.*?) (.*?) (.*?) \[(.*?)\] "(.*?)" (\d*) (\d*) "(.*?)" "(.*?)"'
@@ -31,23 +32,23 @@ server_error = '5..'
 request_overall = 0  # общее количество выполненных запросов
 ip_addrs = defaultdict(int)  # топ 10 IP адресов, с которых были сделаны запросы
 request_by_type = defaultdict(int)  # количество запросов по типу: GET - 20, POST - 10 и т.п.
-request_client_err = list()
-request_server_err = list()
+request_client_error = list()
+request_server_error = list()
 
 
 def split_request(request_line):
     gr = re.match('(\A[A-Z]+?) (.+?) ', request_line).groups()
-    return {'met': gr[0], 'url': gr[1]}
+    return {'method': gr[0], 'url': gr[1]}
 
 
 # должно быть видно метод, url, статус код, ip адрес
 def extract_data(parsed_mobj):
-    pg = parsed_mobj.groups()
-    split = split_request(pg[pos_request])
-    return (split['met'],
-            split['url'],
-            pg[pos_status],
-            pg[pos_ip])
+    pmg = parsed_mobj.groups()
+    req = split_request(pmg[pos_request])
+    return {'method': req['method'],
+            'url': req['url'],
+            'status': pmg[pos_status],
+            'IP': pmg[pos_ip]}
 
 
 lines = open(filename, 'r').readlines()
@@ -62,18 +63,28 @@ for line in lines:
     # топ 10 IP адресов, с которых были сделаны запросы
     ip_addrs[groups[pos_ip]] += 1
     # количество запросов по типу: GET - 20, POST - 10 и т.п.
-    request_type = split_request(groups[pos_request])['met']
+    request_type = split_request(groups[pos_request])['method']
     request_by_type[request_type] += 1
-    # топ 10 не получится, потому что не задан критерий сортировки, значит будут просто первые 10
+
     # топ 10 запросов, которые завершились клиентской ошибкой, должно быть видно метод, url, статус код, ip адрес
     if re.match(client_error, groups[pos_status]):
-        request_client_err.append(extract_data(parsed))
+        request_client_error.append(extract_data(parsed))
     # топ 10 запросов, которые завершились ошибкой со стороны сервера, должно быть видно метод, url, статус код, ip адрес
+    if re.match(server_error, groups[pos_status]):
+        request_server_error.append(extract_data(parsed))
 
-ip_addrs_sorted = {k: v for k, v in sorted(ip_addrs.items(), key=lambda item: item[1])}
+ip_addrs_sorted = {k: v for k, v in sorted(ip_addrs.items(), key=lambda item: item[1], reverse=True)}
 ip_items = ip_addrs_sorted.items()
 ip_first_ten = list(ip_items)[:10]
-print(request_overall)
-print(request_by_type)
-print(ip_first_ten)
-print(request_client_err)
+# топ 10 не получится, потому что не задан критерий сортировки, значит будут просто первые 10
+request_client_error_first_ten = request_client_error[:10]
+request_server_error_first_ten = request_server_error[:10]
+stats = {
+    'общее количество выполненных запросов': request_overall,
+    'количество запросов по типу': dict(request_by_type),
+    'топ 10 IP адресов, с которых были сделаны запросы': ip_first_ten,
+    'топ 10 запросов, которые завершились клиентской ошибкой': request_client_error_first_ten,
+    'топ 10 запросов, которые завершились ошибкой со стороны сервера': request_server_error_first_ten
+}
+print(stats)
+print(json.dumps(stats, indent=4, ensure_ascii=False))
