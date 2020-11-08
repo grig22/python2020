@@ -9,21 +9,15 @@ class SSH:
         self.ssh = ssh
 
     def sudo(self, command):
-        command = "sudo " + command
-        print("CMD:", command)
-        stdin, stdout, stderr = self.ssh.exec_command(command)
-        out = stdout.read()
-        if out:
-            print("OUT:", out.decode("utf-8"))
-        err = stderr.read()
-        if err:
-            print("ERR:", err.decode("utf-8"))
-        return {"out": out, "err": err}
+        stdin, stdout, stderr = self.ssh.exec_command("sudo " + command)
+        return {
+            "out": stdout.read().decode("utf-8"),
+            "err": stderr.read().decode("utf-8")}
 
 
-ssh = SSH("localhost")
-ssh.sudo("whoami")
-ssh.sudo("ls 9900")
-ssh.sudo("systemctl is-active apache2")
-
-print("AND NOW WE'RE GETTING PARAMIKO ERROR FROM 28 Sep 2017")
+# ssh = SSH("localhost")
+# ssh.sudo("whoami")
+# ssh.sudo("ls 9900")
+# ssh.sudo("systemctl is-active apache2")
+#
+# print("AND NOW WE'RE GETTING PARAMIKO ERROR FROM 28 Sep 2017")
