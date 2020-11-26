@@ -6,3 +6,6 @@ class Doge:
 
     def all_breeds(self):
         return requests.get(f"{self.base_url}/breeds/list/all").json()
+
+    def random_images(self, num):
+        return requests.get(f"{self.base_url}/breeds/image/random/{num}").json()
