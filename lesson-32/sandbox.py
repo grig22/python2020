@@ -1,5 +1,4 @@
-from unittest.mock import patch, Mock
-from mock_doge import Doge
+from real_doge import Doge
 
 doge = Doge()
-print(doge.random_images(4))
+print(doge.sub_breeds('mastiff'))
