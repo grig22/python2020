@@ -1,7 +1,8 @@
 from naotostore import NaotoStore
-import time
+import allure
 
 
+@allure.story("Смотрим картинку любую")
 def test_random_product(browser):
     store = NaotoStore(browser)
     store.open("https://www.naotohattori.com/")
@@ -15,9 +16,9 @@ def test_random_product(browser):
     assert "Original Artwork" in store.title()
     store.is_present(store.THUMB_IMAGE)
     store.logger.warning("Look at that beauty")
-    time.sleep(2)
 
 
+@allure.story("Ищем по названию")
 def test_search(browser):
     store = NaotoStore(browser)
     store.open("https://www.naotohattori.com/")
@@ -26,4 +27,3 @@ def test_search(browser):
     store.search_gone()
     store.click_css("#frmCompare > div.SearchContainer > ul > li:nth-child(1) > div.ProductImage.QuickView > a > img")
     store.logger.warning("Look at that beauty")
-    time.sleep(2)
